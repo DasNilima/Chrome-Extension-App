@@ -14,7 +14,6 @@ body {
     font-weight: 400;
     margin-bottom: 0;
     font-size:1.8rem;
-
 }
 .greeting__name {
     color: #6c757d;
@@ -44,11 +43,9 @@ body {
     margin-bottom: 0.5rem;
 }
 .actionItems {
-    height: 200px;
-    background-color: peachpuff;
+    
 }
 .actionItem__item {
-    height: 40px;
     background-color: gray;
     margin: 3px;
 }
@@ -78,3 +75,40 @@ body {
 /* .actionInput__suggestions .btn-outline-dark:focus {
     box-shadow: none;
 } */
+.actionItem__item {
+    background: #F6f6f6;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 12px;
+}
+.actionItem__main {
+    display: flex;
+    align-items: center;
+
+}
+.actionItem__text {
+    flex: 1;
+    word-break: break-word;
+    text-align: center;
+    color: #727272;
+    font-weight: bold;
+    font-size: 18px;
+}
+.actionItem__checkBox {
+    border: 3px solid rgba(151,151,151, 0.27);
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.actionItem__checkBox i {
+    color: #56e452;
+}
+.actionItem__check {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
