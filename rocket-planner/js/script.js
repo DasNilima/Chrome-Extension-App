@@ -1,11 +1,25 @@
 let addItemForm = document.querySelector('#addItemForm');
 let itemList = document.querySelector('.actionItems');
+let storage = chrome.storage.sync;
+
+// get all actionItems from Chrome Storage
+storage.get(['actionItems'], (data) => {
+    let actionItems = data.actionItems;
+    renderActionItems(actionItems);
+});
+
+//create renderActionItems() function and loop through each action item and render it
+const renderActionItems = (actionItems) => {
+    actionItems.forEach((item) => {
+        renderActionItem(item.text);
+    })
+}
 
 addItemForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let itemText = addItemForm.elements.namedItem('itemText').value; // get the value of the element with name ="itemText" in a form
     if (itemText) {
-        add();
+        add(itemText);
         renderActionItem(itemText);
         addItemForm.elements.namedItem('itemText').value = '';
     }
