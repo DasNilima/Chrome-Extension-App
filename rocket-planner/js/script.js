@@ -1,17 +1,19 @@
 let addItemForm = document.querySelector('#addItemForm');
 let itemList = document.querySelector('.actionItems');
 let storage = chrome.storage.sync;
+// chrome.storage.sync.clear();
 
 // get all actionItems from Chrome Storage
 storage.get(['actionItems'], (data) => {
     let actionItems = data.actionItems;
     renderActionItems(actionItems);
+    console.log(actionItems);
 });
 
 //create renderActionItems() function and loop through each action item and render it
 const renderActionItems = (actionItems) => {
     actionItems.forEach((item) => {
-        renderActionItem(item.text);
+        renderActionItem(item.text, item.id, item.completed);
     })
 }
 
@@ -28,7 +30,7 @@ addItemForm.addEventListener('submit', (e) => {
 const add = (text) => {
 
     let actionItem = {
-        id: 1,
+        id: uuidv4(),
         added: new Date().toString(),
         text: text,
         completed: null
@@ -51,8 +53,32 @@ const add = (text) => {
         })
     })
 }
+// create a markUnmarkCompleted() function to set the item completed in chrome storage
+
+const markUnmarkCompleted = (id) => {
+    storage.get(['actionItems'], (data) => {
+        // console.log(data.actionItems);
+        let items = data.actionItems;
+        let foundItemIndex = items.findIndex((item) => item.id == id);
+        if (foundItemIndex >= 0) {
+            items[foundItemIndex].completed = true; 
+            chrome.storage.sync.set({
+                actionItems: items
+            })
+        }
+    })
+}
+const handleCompletedEventListener = (e) => {
+    const id = e.target.parentElement.parentElement.getAttribute('data-id');
+    const parent = e.target.parentElement.parentElement;
+    // console.log(parent);
+    parent.classList.add('completed');
+    // console.log(uuidv4());
+    markUnmarkCompleted(id);
+
+}
 // create renderActionItem() function that allow a user add action item html to the action items list with class .actionItem
-const renderActionItem = (text) => {
+const renderActionItem = (text, id, completed) => {
     let element = document.createElement('div');
     element.classList.add('actionItem__item');
     let mainElement = document.createElement('div');
@@ -69,6 +95,11 @@ const renderActionItem = (text) => {
                 <i class="fas fa-check" aria-hidden="true"></i>
         </div>
         `
+    if (completed) {
+        element.classList.add('completed');
+    }
+    element.setAttribute('data-id', id)
+    checkEl.addEventListener('click', handleCompletedEventListener);  // create an event listener on the checkmark element
     textEl.textContent = text;
     deleteEl.innerHTML = `<i class="fas fa-times"></i>`;
     mainElement.appendChild(checkEl);
