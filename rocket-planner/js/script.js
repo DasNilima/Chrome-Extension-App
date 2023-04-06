@@ -55,13 +55,13 @@ const add = (text) => {
 }
 // create a markUnmarkCompleted() function to set the item completed in chrome storage
 
-const markUnmarkCompleted = (id) => {
+const markUnmarkCompleted = (id, completeStatus) => {
     storage.get(['actionItems'], (data) => {
         // console.log(data.actionItems);
         let items = data.actionItems;
         let foundItemIndex = items.findIndex((item) => item.id == id);
         if (foundItemIndex >= 0) {
-            items[foundItemIndex].completed = true; 
+            items[foundItemIndex].completed = completeStatus; 
             chrome.storage.sync.set({
                 actionItems: items
             })
@@ -72,10 +72,15 @@ const handleCompletedEventListener = (e) => {
     const id = e.target.parentElement.parentElement.getAttribute('data-id');
     const parent = e.target.parentElement.parentElement;
     // console.log(parent);
-    parent.classList.add('completed');
+    //add the ability to unmark items
+    if (parent.classList.contains('completed')) {
+        markUnmarkCompleted(id, null );
+        parent.classList.remove('completed');
+    } else {
+        markUnmarkCompleted(id, new Date().toString());    
+        parent.classList.add('completed');
+    }
     // console.log(uuidv4());
-    markUnmarkCompleted(id);
-
 }
 // create renderActionItem() function that allow a user add action item html to the action items list with class .actionItem
 const renderActionItem = (text, id, completed) => {
