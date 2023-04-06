@@ -7,7 +7,8 @@ let storage = chrome.storage.sync;
 storage.get(['actionItems'], (data) => {
     let actionItems = data.actionItems;
     renderActionItems(actionItems);
-    console.log(actionItems);
+    // console.log(actionItems);
+    setProgress();
 });
 
 //create renderActionItems() function and loop through each action item and render it
@@ -64,6 +65,8 @@ const markUnmarkCompleted = (id, completeStatus) => {
             items[foundItemIndex].completed = completeStatus; 
             chrome.storage.sync.set({
                 actionItems: items
+            }, () => {
+                setProgress();
             })
         }
     })
@@ -115,6 +118,23 @@ const renderActionItem = (text, id, completed) => {
     // console.log(element);
 
 }
+// create a setProgress() function and update action items progress bar
+const setProgress = () => {
+    storage.get(['actionItems'], (data) => {
+        let actionItems = data.actionItems;
+        let completedItems;
+        let totalItems = actionItems.length;
+        //null = false
+        //date = true
+        completedItems = actionItems.filter(item => item.completed).length;
+        // console.log(totalItems);
+        // console.log(completedItems);
+        let progress = 0;
+        progress = completedItems / totalItems;
+        circle.animate(progress);
+})
+
+}
 
 var circle = new ProgressBar.Circle('#container', {
     color: '#010101',
@@ -144,4 +164,4 @@ var circle = new ProgressBar.Circle('#container', {
 circle.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 circle.text.style.fontSize = '2rem';
 
-circle.animate(1.0);  // Number from 0.0 to 1.0
+// circle.animate(1.0);  // Number from 0.0 to 1.0
