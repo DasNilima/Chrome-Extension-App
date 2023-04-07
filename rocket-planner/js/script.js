@@ -44,6 +44,17 @@ const handleCompletedEventListener = (e) => {
     }
     // console.log(uuidv4());
 }
+
+// create a handleDeleteEventListener() function
+
+const handleDeleteEventListener = (e) => {
+    const id = e.target.parentElement.parentElement.getAttribute('data-id');
+    const parent = e.target.parentElement.parentElement;
+    // console.log(e.target);
+    // console.log(id);
+    actionItemsUtils.remove(id); // remove from chrome storage
+    parent.remove();
+}
 // create renderActionItem() function that allow a user add action item html to the action items list with class .actionItem
 const renderActionItem = (text, id, completed) => {
     let element = document.createElement('div');
@@ -65,7 +76,8 @@ const renderActionItem = (text, id, completed) => {
     if (completed) {
         element.classList.add('completed');
     }
-    element.setAttribute('data-id', id)
+    element.setAttribute('data-id', id);
+    deleteEl.addEventListener('click', handleDeleteEventListener); // add an event listener to .actionItem__delete
     checkEl.addEventListener('click', handleCompletedEventListener);  // create an event listener on the checkmark element
     textEl.textContent = text;
     deleteEl.innerHTML = `<i class="fas fa-times"></i>`;

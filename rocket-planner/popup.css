@@ -122,6 +122,7 @@ body {
     text-align: center;
     font-size: 20px;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 .actionItem__item.completed {
     background-color: #b0f1ab;
@@ -133,6 +134,12 @@ body {
 .actionItem__check  * {
     pointer-events: none;
 }
+.actionItem__delete * {
+    pointer-events: none;
+}
 .actionItem__item.completed .actionItem__check i {
     opacity: 1;
+}
+.actionItem__delete:hover {
+    color: #D00000;
 }

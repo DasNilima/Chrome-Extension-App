@@ -20,6 +20,24 @@ add = (text) => {
         })
     })
 }
+    
+    
+// Create a remove() function to remove the item from Chrome Storage
+    remove = (id) => {
+        storage.get(['actionItems'], (data) => {
+            // console.log(data.actionItems);
+            let items = data.actionItems;
+            let foundItemIndex = items.findIndex((item) => item.id == id);
+            if (foundItemIndex >= 0) {
+                items.splice(foundItemIndex, 1);
+                chrome.storage.sync.set({
+                    actionItems: items
+                }, () => {
+                    this.setProgress();
+                })
+            }
+        })
+    }
 
 // create a markUnmarkCompleted() function to set the item completed in chrome storage
 
