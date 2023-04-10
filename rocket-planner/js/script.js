@@ -29,11 +29,25 @@ const renderActionItems = (actionItems) => {
 const handleQuickActionListener = (e) => {
     // console.log(e);
     const text = e.target.getAttribute('data-text');
+    const id = e.target.getAttribute('data-id');
     // console.log(text);
-    actionItemsUtils.add(text, (actionItem) => {
-        renderActionItem(actionItem.text, actionItem.id, actionItem.completed)
-    });
+    getCurrentTab().then((tab) => {
+        actionItemsUtils.addQuickActionItem(id, text, tab, (actionItem) => {
+            renderActionItem(actionItem.text, actionItem.id, actionItem.completed)
+        });
+    })
+}
 
+// Create a getCurrentTab() function to get active tab
+
+async function getCurrentTab() {
+    return await new Promise((resolve, reject) => {
+        chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+            // console.log("Tabs", tabs);
+            resolve(tabs[0]);
+        })
+    })
+    
 }
 
 // Create an event listener for quick action buttons with a createQuickActionListener () function
@@ -49,7 +63,7 @@ addItemForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let itemText = addItemForm.elements.namedItem('itemText').value; // get the value of the element with name ="itemText" in a form
     if (itemText) {
-        actionItemsUtils.add(itemText, (actionItem) => {
+        actionItemsUtils.add(itemText, null, (actionItem) => {
             renderActionItem(actionItem.text, actionItem.id, actionItem.completed);
             addItemForm.elements.namedItem('itemText').value = '';
         });
