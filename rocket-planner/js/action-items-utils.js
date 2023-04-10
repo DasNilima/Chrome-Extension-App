@@ -1,6 +1,6 @@
 class Actionitems {
     // create add () function
-add = (text) => {
+add = (text, callback) => {
     let actionItem = {
         id: uuidv4(),
         added: new Date().toString(),
@@ -17,24 +17,25 @@ add = (text) => {
         }
         chrome.storage.sync.set({
             actionItems: items
+        }, () => {
+            callback(actionItem);
         })
     })
 }
     
     
 // Create a remove() function to remove the item from Chrome Storage
-    remove = (id) => {
+    remove = (id, callback) => {
         storage.get(['actionItems'], (data) => {
             // console.log(data.actionItems);
             let items = data.actionItems;
             let foundItemIndex = items.findIndex((item) => item.id == id);
+            console.log(foundItemIndex);
             if (foundItemIndex >= 0) {
                 items.splice(foundItemIndex, 1);
                 chrome.storage.sync.set({
                     actionItems: items
-                }, () => {
-                    this.setProgress();
-                })
+                }, callback)
             }
         })
     }
@@ -50,8 +51,6 @@ markUnmarkCompleted =(id, completeStatus) => {
             items[foundItemIndex].completed = completeStatus; 
             chrome.storage.sync.set({
                 actionItems: items
-            }, () => {
-                this.setProgress();
             })
         }
     })

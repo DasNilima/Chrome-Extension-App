@@ -7,9 +7,15 @@ let actionItemsUtils = new Actionitems();
 // get all actionItems from Chrome Storage
 storage.get(['actionItems'], (data) => {
     let actionItems = data.actionItems;
+    console.log(actionItems);
+    createQuickActionListener();
     renderActionItems(actionItems);
     // console.log(actionItems);
     actionItemsUtils.setProgress();
+    chrome.storage.onChanged.addListener(() => {
+        // console.log("changed");
+        actionItemsUtils.setProgress();
+    })
 });
 
 //create renderActionItems() function and loop through each action item and render it
@@ -19,13 +25,35 @@ const renderActionItems = (actionItems) => {
     })
 }
 
+//create an event handler handleQuickActionListener() function
+const handleQuickActionListener = (e) => {
+    // console.log(e);
+    const text = e.target.getAttribute('data-text');
+    // console.log(text);
+    actionItemsUtils.add(text, (actionItem) => {
+        renderActionItem(actionItem.text, actionItem.id, actionItem.completed)
+    });
+
+}
+
+// Create an event listener for quick action buttons with a createQuickActionListener () function
+const createQuickActionListener = () => {
+    let buttons = document.querySelectorAll('.quick-action');
+    // console.log(buttons);
+    buttons.forEach((button) => {
+        button.addEventListener('click', handleQuickActionListener )
+    })
+}
+
 addItemForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let itemText = addItemForm.elements.namedItem('itemText').value; // get the value of the element with name ="itemText" in a form
     if (itemText) {
-        actionItemsUtils.add(itemText);
-        renderActionItem(itemText);
-        addItemForm.elements.namedItem('itemText').value = '';
+        actionItemsUtils.add(itemText, (actionItem) => {
+            renderActionItem(actionItem.text, actionItem.id, actionItem.completed);
+            addItemForm.elements.namedItem('itemText').value = '';
+        });
+        
     }
 })
 
@@ -52,8 +80,10 @@ const handleDeleteEventListener = (e) => {
     const parent = e.target.parentElement.parentElement;
     // console.log(e.target);
     // console.log(id);
-    actionItemsUtils.remove(id); // remove from chrome storage
-    parent.remove();
+    actionItemsUtils.remove(id, () => {
+        parent.remove();
+    }); // remove from chrome storage
+
 }
 // create renderActionItem() function that allow a user add action item html to the action items list with class .actionItem
 const renderActionItem = (text, id, completed) => {
