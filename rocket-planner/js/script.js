@@ -21,7 +21,7 @@ storage.get(['actionItems'], (data) => {
 //create renderActionItems() function and loop through each action item and render it
 const renderActionItems = (actionItems) => {
     actionItems.forEach((item) => {
-        renderActionItem(item.text, item.id, item.completed);
+        renderActionItem(item.text, item.id, item.completed, item.website);
     })
 }
 
@@ -33,7 +33,7 @@ const handleQuickActionListener = (e) => {
     // console.log(text);
     getCurrentTab().then((tab) => {
         actionItemsUtils.addQuickActionItem(id, text, tab, (actionItem) => {
-            renderActionItem(actionItem.text, actionItem.id, actionItem.completed)
+            renderActionItem(actionItem.text, actionItem.id, actionItem.completed, actionItem.website);
         });
     })
 }
@@ -64,7 +64,7 @@ addItemForm.addEventListener('submit', (e) => {
     let itemText = addItemForm.elements.namedItem('itemText').value; // get the value of the element with name ="itemText" in a form
     if (itemText) {
         actionItemsUtils.add(itemText, null, (actionItem) => {
-            renderActionItem(actionItem.text, actionItem.id, actionItem.completed);
+            renderActionItem(actionItem.text, actionItem.id, actionItem.completed, actionItem.website);
             addItemForm.elements.namedItem('itemText').value = '';
         });
         
@@ -100,7 +100,7 @@ const handleDeleteEventListener = (e) => {
 
 }
 // create renderActionItem() function that allow a user add action item html to the action items list with class .actionItem
-const renderActionItem = (text, id, completed) => {
+const renderActionItem = (text, id, completed, website=null) => {
     let element = document.createElement('div');
     element.classList.add('actionItem__item');
     let mainElement = document.createElement('div');
@@ -129,7 +129,28 @@ const renderActionItem = (text, id, completed) => {
     mainElement.appendChild(textEl);
     mainElement.appendChild(deleteEl);
     element.appendChild(mainElement);
+    if (website) {
+        let linkContainer = createLinkContainer(website.url, website.fav_icon, website.title);
+        element.appendChild(linkContainer);
+    }
     itemList.prepend(element);
     // console.log(element);
-
+}
+// Create a createLinkContainer() function
+const createLinkContainer = (url, favIcon, title) => {
+    let element = document.createElement('div');
+    element.classList.add('actionItem__linkContainer');
+    element.innerHTML = `
+    <a href="${url}" target="_blank">
+        <div class="actionItem__link">
+            <div class="actionItem__favIcon">
+                <img src="${favIcon}" alt="">
+            </div>
+            <div class="actionInput__title">
+                <span>${title}</span>
+            </div>
+        </div>
+    </a>
+    `
+    return element;
 }
