@@ -10,6 +10,7 @@ storage.get(['actionItems'], (data) => {
     console.log(actionItems);
     createQuickActionListener();
     renderActionItems(actionItems);
+    createUpdateNameDialogListener();
     // console.log(actionItems);
     actionItemsUtils.setProgress();
     chrome.storage.onChanged.addListener(() => {
@@ -24,7 +25,14 @@ const renderActionItems = (actionItems) => {
         renderActionItem(item.text, item.id, item.completed, item.website);
     })
 }
-
+// create an update Name Dialog function
+const createUpdateNameDialogListener = () => {
+    let greetingName = document.querySelector('.greeting__name')
+    greetingName.addEventListener('click', () => {
+        // open the model
+        $('#updateNameModal').modal('show');
+    })
+}
 //create an event handler handleQuickActionListener() function
 const handleQuickActionListener = (e) => {
     // console.log(e);
