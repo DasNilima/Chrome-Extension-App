@@ -219,7 +219,7 @@ const setGreetingImage = () => {
     if (hour >= 5 && hour <= 11) {
         image.src = './images/good-morning.png';
     } else if (hour >= 12 && hour <= 16) {
-        image.src = './image/good-afternoon.png';
+        image.src = './images/good-afternoon.png';
     } else if (hour >= 17 && hour <= 20) {
         image.src = './images/good-evening.png';
     } else {

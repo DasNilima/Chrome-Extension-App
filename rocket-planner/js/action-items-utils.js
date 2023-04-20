@@ -88,7 +88,17 @@ setProgress = () => {
             // console.log(completedItems);
             let progress = 0;
             progress = completedItems / totalItems;
+            this.setBrowserBadge(totalItems - completedItems);
             circle.animate(progress);
         })
-    }
+}
+// create a setBrowserBadge() function that notify a user of action items
+    setBrowserBadge = (todoItems) => {
+        let text = `${todoItems}`;
+        if (todoItems > 9) {
+            text = '9+';
+        }
+    chrome.action.setBadgeText({ text: text})
+}    
+
 }
