@@ -36,7 +36,12 @@ add = (text, website=null, callback) => {
         })
     })
 }
-    
+//Create a saveName() function to save name in Chrome Storage
+    saveName = (name, callback) => {
+        storage.set({
+        name: name
+    }, callback)
+}    
     
 // Create a remove() function to remove the item from Chrome Storage
     remove = (id, callback) => {

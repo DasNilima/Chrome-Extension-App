@@ -5,13 +5,15 @@ let actionItemsUtils = new Actionitems();
 // chrome.storage.sync.clear();
 
 // get all actionItems from Chrome Storage
-storage.get(['actionItems'], (data) => {
+storage.get(['actionItems', 'name'], (data) => {
     let actionItems = data.actionItems;
+    let name = data.name
+    setUserName(name);
     console.log(actionItems);
     createQuickActionListener();
     renderActionItems(actionItems);
     createUpdateNameDialogListener();
-    // console.log(actionItems);
+    createUpdateNameListener();
     actionItemsUtils.setProgress();
     chrome.storage.onChanged.addListener(() => {
         // console.log("changed");
@@ -25,13 +27,41 @@ const renderActionItems = (actionItems) => {
         renderActionItem(item.text, item.id, item.completed, item.website);
     })
 }
+// create a setUserName() function to change the name text in .name__value
+const setUserName = (name) => {
+    let newName = name ? name : 'Add Name';
+    document.querySelector('.name__value').innerText = newName
+}
 // create an update Name Dialog function
 const createUpdateNameDialogListener = () => {
     let greetingName = document.querySelector('.greeting__name')
     greetingName.addEventListener('click', () => {
         // open the model
+        storage.get(['name'], (data) => {
+            let name = data.name ? data.name : '';
+            document.getElementById('input__name').value = name
+        })
         $('#updateNameModal').modal('show');
     })
+}
+// create a handleUpdateName() for retrieving the new name from input
+const handleUpdateName = (e) => {
+console.log(e)
+    // get the input text
+    const name = document.getElementById('input__name').value;
+    if (name) {
+        //save the name
+        actionItemsUtils.saveName(name, () => {
+            // set the user's name on front end
+            setUserName(name);
+            $('#updateNameModal').modal('hide');
+        });
+    }
+}
+// create a createUpdateNameListener() for when Save Changes is clicked
+const createUpdateNameListener = () => {
+    let element = document.querySelector('#update-name')
+    element.addEventListener('click', handleUpdateName)
 }
 //create an event handler handleQuickActionListener() function
 const handleQuickActionListener = (e) => {
