@@ -10,6 +10,7 @@ storage.get(['actionItems', 'name'], (data) => {
     let name = data.name
     setUserName(name);
     setGreeting();
+    setGreetingImage();
     // console.log(actionItems);
     createQuickActionListener();
     renderActionItems(actionItems);
@@ -209,3 +210,19 @@ const setGreeting = () => {
     }
     document.querySelector('.greeting__type').innerText = greeting
 }
+
+// create a setGreetingImage() function
+const setGreetingImage = () => {
+    let image = document.getElementById('greeting__image');
+    const date = new Date();
+    const hour = date.getHours();
+    if (hour >= 5 && hour <= 11) {
+        image.src = './images/good-morning.png';
+    } else if (hour >= 12 && hour <= 16) {
+        image.src = './image/good-afternoon.png';
+    } else if (hour >= 17 && hour <= 20) {
+        image.src = './images/good-evening.png';
+    } else {
+        image.src = './images/good-night.png';
+    }
+} 
