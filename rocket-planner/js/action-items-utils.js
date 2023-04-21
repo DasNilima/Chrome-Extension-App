@@ -38,14 +38,14 @@ add = (text, website=null, callback) => {
 }
 //Create a saveName() function to save name in Chrome Storage
     saveName = (name, callback) => {
-        storage.set({
+        chrome.storage.sync.set({
         name: name
     }, callback)
 }    
     
 // Create a remove() function to remove the item from Chrome Storage
     remove = (id, callback) => {
-        storage.get(['actionItems'], (data) => {
+        chrome.storage.sync.get(['actionItems'], (data) => {
             // console.log(data.actionItems);
             let items = data.actionItems;
             let foundItemIndex = items.findIndex((item) => item.id == id);
@@ -62,7 +62,7 @@ add = (text, website=null, callback) => {
 // create a markUnmarkCompleted() function to set the item completed in chrome storage
 
 markUnmarkCompleted =(id, completeStatus) => {
-    storage.get(['actionItems'], (data) => {
+    chrome.storage.sync.get(['actionItems'], (data) => {
         // console.log(data.actionItems);
         let items = data.actionItems;
         let foundItemIndex = items.findIndex((item) => item.id == id);
@@ -77,7 +77,7 @@ markUnmarkCompleted =(id, completeStatus) => {
 
 // create a setProgress() function and update action items progress bar
 setProgress = () => {
-        storage.get(['actionItems'], (data) => {
+    chrome.storage.sync.get(['actionItems'], (data) => {
             let actionItems = data.actionItems;
             let completedItems;
             let totalItems = actionItems.length;
@@ -89,7 +89,7 @@ setProgress = () => {
             let progress = 0;
             progress = completedItems / totalItems;
             this.setBrowserBadge(totalItems - completedItems);
-            circle.animate(progress);
+            if (typeof circle !== "undefined") circle.animate(progress);
         })
 }
 // create a setBrowserBadge() function that notify a user of action items
