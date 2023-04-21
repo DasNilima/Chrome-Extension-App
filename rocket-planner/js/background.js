@@ -8,6 +8,14 @@ chrome.contextMenus.create({
     "contexts": ["all"]
 })
 
+chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason == 'install') {
+        console.log("On installed");
+        chrome.storage.sync.set({
+            actionItems: []
+        })
+    }
+})
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     // console.log(actionItemsUtils);
     if (info.menuItemId == 'linkSiteMenu') {
