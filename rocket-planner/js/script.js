@@ -25,10 +25,32 @@ storage.get(['actionItems', 'name'], (data) => {
 
 //create renderActionItems() function and loop through each action item and render it
 const renderActionItems = (actionItems) => {
-    actionItems.forEach((item) => {
+    // filter out completed items from yesterday
+    const filteredItems = filterActionItems(actionItems);
+    filteredItems.forEach((item) => {
         renderActionItem(item.text, item.id, item.completed, item.website);
     })
+    storage.set({
+        actionItems: filteredItems,
+    })
 }
+// create a filterActionItems() function
+const filterActionItems = (actionItems) => {
+    var currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    const filteredItems = actionItems.filter((item) => {
+        if (item.completed) {
+            // if completed date is less than today date
+            const completedDate = new Date(item.completed);
+            if (completedDate < currentDate) {
+            return false;
+            }
+        }
+        return true;
+    })
+    return filteredItems;
+}
+
 // create a setUserName() function to change the name text in .name__value
 const setUserName = (name) => {
     let newName = name ? name : 'Add Name';
