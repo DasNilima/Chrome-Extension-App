@@ -64,6 +64,10 @@ body {
     background-color: gray;
     margin: 3px;
 }
+.actionInput {
+    background-color: white;
+    z-index: 1000;
+}
 #container {
     width: 140px;
     height: 140px;

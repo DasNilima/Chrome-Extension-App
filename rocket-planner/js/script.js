@@ -153,11 +153,13 @@ const handleCompletedEventListener = (e) => {
 
 const handleDeleteEventListener = (e) => {
     const id = e.target.parentElement.parentElement.getAttribute('data-id');
-    const parent = e.target.parentElement.parentElement;
+    // const parent = e.target.parentElement.parentElement;
     // console.log(e.target);
     // console.log(id);
+    let jElement = $(`div[data-id="${id}"]`);
     actionItemsUtils.remove(id, () => {
-        parent.remove();
+        animateUp(jElement);
+        // parent.remove();
     }); // remove from chrome storage
 
 }
@@ -200,12 +202,22 @@ const renderActionItem = (text, id, completed, website=null, animationDuration=4
     let jElement = $(`div[data-id="${id}"]`);
     animateDown(jElement, animationDuration);
 }
-
-// create an animateDown () function 
-const animateDown = (element, duration) => {
-    console.log(duration)
+// create an animateUp() function that allows removing action items
+const animateUp = (element) => {
     let height = element.innerHeight();
-    console.log(height)
+    // console.log(height)
+    element.animate({
+        opacity: 0,
+        marginTop: `-${height}px`
+    }, 250, () => {
+        element.remove();
+    })
+}
+// create an animateDown () function that allows adding action items
+const animateDown = (element, duration) => {
+    // console.log(duration)
+    let height = element.innerHeight();
+    // console.log(height)
     element.css({ marginTop: `-${height}px`, opacity: 0 }).animate({
         opacity: 1,
         marginTop: '12px',

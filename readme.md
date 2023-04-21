@@ -4,4 +4,4 @@
 - Save the data in Chrome storage sync (https://developer.chrome.com/docs/extensions/reference/storage/)
 - create a right click Context Menu (https://developer.chrome.com/docs/extensions/mv3/service_workers/) and (https://developer.chrome.com/docs/extensions/migrating/to-service-workers/)
 - Initialize actionitems on installation of Chrome Extension (https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled)
-- Get the Epic animation for adding action items (https://api.jquery.com/animate/)
+- Get the jQuery Epic animation for adding & removing action items (https://api.jquery.com/animate/)
