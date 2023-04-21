@@ -87,7 +87,10 @@ setProgress = () => {
             // console.log(totalItems);
             // console.log(completedItems);
             let progress = 0;
+        if (totalItems > 0) {
             progress = completedItems / totalItems;
+            }
+            // console.log(progress);
             this.setBrowserBadge(totalItems - completedItems);
             if (typeof circle !== "undefined") circle.animate(progress);
         })

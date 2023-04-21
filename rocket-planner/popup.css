@@ -119,6 +119,7 @@ body {
 .actionItem__checkBox i {
     color: #56e452;
     opacity: 0;
+    transition: opacity 0.2s ease-in-out;
 }
 .actionItem__check {
     width: 40px;
@@ -178,6 +179,10 @@ body {
     transition: border-color 0.2s ease-out;
 
 }
+.actionItem__item.completed .actionItem__link {
+    background-color: #b0f1ab;
+    border-color: #56e452;
+}
 .actionItem__favIcon {
     flex-basis: 45px;
     display: flex;
@@ -205,4 +210,8 @@ body {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+.modal-dialog {
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
