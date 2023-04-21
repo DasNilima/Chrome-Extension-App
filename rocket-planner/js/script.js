@@ -95,7 +95,7 @@ const handleQuickActionListener = (e) => {
     // console.log(text);
     getCurrentTab().then((tab) => {
         actionItemsUtils.addQuickActionItem(id, text, tab, (actionItem) => {
-            renderActionItem(actionItem.text, actionItem.id, actionItem.completed, actionItem.website);
+            renderActionItem(actionItem.text, actionItem.id, actionItem.completed, actionItem.website, 250);
         });
     })
 }
@@ -126,7 +126,7 @@ addItemForm.addEventListener('submit', (e) => {
     let itemText = addItemForm.elements.namedItem('itemText').value; // get the value of the element with name ="itemText" in a form
     if (itemText) {
         actionItemsUtils.add(itemText, null, (actionItem) => {
-            renderActionItem(actionItem.text, actionItem.id, actionItem.completed, actionItem.website);
+            renderActionItem(actionItem.text, actionItem.id, actionItem.completed, actionItem.website, 250);
             addItemForm.elements.namedItem('itemText').value = '';
         });
         
@@ -162,7 +162,7 @@ const handleDeleteEventListener = (e) => {
 
 }
 // create renderActionItem() function that allow a user add action item html to the action items list with class .actionItem
-const renderActionItem = (text, id, completed, website=null) => {
+const renderActionItem = (text, id, completed, website=null, animationDuration=450) => {
     let element = document.createElement('div');
     element.classList.add('actionItem__item');
     let mainElement = document.createElement('div');
@@ -197,6 +197,19 @@ const renderActionItem = (text, id, completed, website=null) => {
     }
     itemList.prepend(element);
     // console.log(element);
+    let jElement = $(`div[data-id="${id}"]`);
+    animateDown(jElement, animationDuration);
+}
+
+// create an animateDown () function 
+const animateDown = (element, duration) => {
+    console.log(duration)
+    let height = element.innerHeight();
+    console.log(height)
+    element.css({ marginTop: `-${height}px`, opacity: 0 }).animate({
+        opacity: 1,
+        marginTop: '12px',
+    }, duration)
 }
 // Create a createLinkContainer() function
 const createLinkContainer = (url, favIcon, title) => {
