@@ -25,6 +25,10 @@ Boost your productivity and make the most of your day with Rocker Planner. Let's
 (https://drive.google.com/file/d/1JM9wywyyQT7Ne-ZfWWq3IajS-YLBYAFH/view)
 - Chrome Extension: Create a Wireframe 👇
   (https://drive.google.com/file/d/1A2HRN81pooUvfbmQGuvQSYbfwae5fpdz/view )
+
+## Project Screenshot
+![GIF](rocket-planner/screenshot-image/Screen%20Shot%201.jpeg)
+![GIF](rocket-planner/screenshot-image/Screen%20Shot%202.jpeg)
 ## Project Resources
 
 - Set up the Chrome Extension App (https://developer.chrome.com/extensions/getstarted )
@@ -33,3 +37,5 @@ Boost your productivity and make the most of your day with Rocker Planner. Let's
 - create a right click Context Menu (https://developer.chrome.com/docs/extensions/mv3/service_workers/) and (https://developer.chrome.com/docs/extensions/migrating/to-service-workers/)
 - Initialize actionitems on installation of Chrome Extension (https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled)
 - Get the jQuery Epic animation for adding & removing action items (https://api.jquery.com/animate/)
+- 🚀 UPLOAD Chrome Extension to the Chrome Web Store 
+  (https://developer.chrome.com/docs/webstore/publish/)
