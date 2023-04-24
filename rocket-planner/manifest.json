@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Rocket Planner",
     "version": "1.0",
-    "description": "MOST EPIC PLANNER",
+    "description": "EPIC TASK PLANNER",
     "action": {
         "default_popup": "popup.html",
         "default_icons": {
