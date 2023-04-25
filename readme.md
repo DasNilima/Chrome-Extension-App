@@ -18,6 +18,9 @@ Rocker Planner also ensures the security and convenience of your task list with 
 
 Boost your productivity and make the most of your day with Rocker Planner. Let's take action and conquer your to-do list like a rockstar!
 
+
+### How to Set Up a Chrome Extension App
+https://medium.com/@nilima.sust/how-to-set-up-a-chrome-extension-app-34a6acd9665
 ## Project Planning & Requirements
 - Chrome Extension: Create a Software Requirements Document 👇
    (https://docs.google.com/document/d/1HgElXpuPanmSKVXiFwWfEhbfwzVLZd-NZCQBaVP48eo/edit?usp=sharing)
